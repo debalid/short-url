@@ -1,0 +1,25 @@
+services:
+  short-url:
+    image: short-url:latest
+    ports:
+      - "8080:8080"
+    restart: always
+    environment:
+      - SU_APP_ENV=prod
+    networks:
+      - backend
+
+  redis:
+    image: redis:6.2.4-alpine
+    command: redis-server --appendonly yes
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis-data:/data
+    environment:
+      - REDIS_REPLICATION_MODE=master
+    networks:
+      - backend
+
+networks:
+  backend:

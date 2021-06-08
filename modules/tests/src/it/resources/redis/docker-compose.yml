@@ -1,0 +1,4 @@
+# Note: this is used in integration test by TestContainers on random free port
+services:
+  redis:
+    image: redis:6.2.4-alpine
