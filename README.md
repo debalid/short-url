@@ -3,7 +3,7 @@ short-url
 
 ## Overview
 
-A simple HTTP service to short any arbitrary URL to 10 symbols exactly with Redis as a storage.
+A simple HTTP service to shorten an arbitrary URL to exactly 10 symbols with Redis as a storage.
 
 For each new unique URL a unique hash of `[A-Za-z0-9_]{10}` is generated. The hash is a representation of Long in Base63 (26 for `A-Z`, 26 for `a-z`, 10 for `0-9`, 1 for `_`) according to following schema:
 
@@ -27,7 +27,7 @@ all possible cases.
 
 Links are modeled as pair of `(UrlHash -> FullUrl, FullUrl -> UrlHash)` and persisted in Redis. Links are set
 via [MSETNX](https://redis.io/commands/msetnx) command which ensures atomicity and uniquness.
-`GET` commands have `O(C)` complexity. 
+`GET` commands have `O(1)` complexity. 
 
 For persistence, Redis should be run with [AOF](https://redis.io/topics/persistence#aof-advantages) enabled
 via `--append-only=yes` option.
