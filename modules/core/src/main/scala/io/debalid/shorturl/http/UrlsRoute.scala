@@ -7,6 +7,7 @@ import io.debalid.shorturl.services.Urls
 
 import cats.effect.Concurrent
 import cats.syntax.flatMap._
+import cats.syntax.semigroupk._
 import cats.syntax.show._
 import org.http4s.HttpRoutes
 import org.http4s.dsl.Http4sDsl
@@ -23,19 +24,24 @@ final case class UrlsRoute[F[_]: Concurrent](urls: Urls[F], shortUrl: ShortUrl[F
       }
 
     // Not Base63{10}
-    case GET -> Root / _ => NotFound()
+    case GET -> Root / _ => BadRequest()
 
     case req @ POST -> Root =>
       req.decode[String] {
         case UrlString(url) =>
           shortUrl.makeShortUrl(FullUrl(url)).flatMap { urlHash =>
-            urls.link(urlHash, FullUrl(url)) >> Ok(urlHash.show)
+            Ok(urlHash.show)
           }
-        case _ => NotFound()
+        case _ => BadRequest()
       }
   }
 
+  private val openApiDocs = HttpRoutes.of[F] {
+    case GET -> Root / "docs" / "openapi" =>
+      Ok(Endpoints.openApiYaml)
+  }
+
   val routes: HttpRoutes[F] = Router(
-    "/" -> urlsRoute
+    "/" -> (urlsRoute <+> openApiDocs)
   )
 }

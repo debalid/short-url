@@ -61,16 +61,16 @@ object UrlsRoutesSuite extends SimpleIOSuite with Checkers {
     }
   }
 
-  test("Should return 404 NotFound on invalid short links") {
+  test("Should return 400 BadRequest on invalid short links") {
     forall(Gen.alphaStr.suchThat(testCase => testCase.nonEmpty && !testCase.matches("[A-Za-z0-9_]{10}"))) { url =>
       for {
         urlsRoute <- makeTestUrlsRoute()
         req = GET(Uri.unsafeFromString(s"/$url"))
         response <- urlsRoute.routes.run(req).value
       } yield response match {
-        case Some(response) if response.status === Status.NotFound => success
-        case None                                                  => failure(s"Route not found $req")
-        case _                                                     => failure(s"Unexpected server response $response on request $req")
+        case Some(response) if response.status === Status.BadRequest => success
+        case None                                                    => failure(s"Route not found $req")
+        case _                                                       => failure(s"Unexpected server response $response on request $req")
       }
     }
   }
@@ -93,16 +93,16 @@ object UrlsRoutesSuite extends SimpleIOSuite with Checkers {
     }
   }
 
-  test("Should return 404 NotFound on shortening invalid full urls") {
+  test("Should return 400 BadRequest on shortening invalid full urls") {
     forall(Gen.alphaStr.suchThat(_.nonEmpty)) { url =>
       for {
         urlsRoute <- makeTestUrlsRoute()
         req = POST(url.show, uri"/")
         response <- urlsRoute.routes.run(req).value
       } yield response match {
-        case Some(response) if response.status === Status.NotFound => success
-        case None                                                  => failure(s"Route not found $req")
-        case _                                                     => failure(s"Unexpected server response $response on request $req")
+        case Some(response) if response.status === Status.BadRequest => success
+        case None                                                    => failure(s"Route not found $req")
+        case _                                                       => failure(s"Unexpected server response $response on request $req")
       }
     }
   }
