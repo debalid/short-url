@@ -26,15 +26,13 @@ object Endpoints {
 
   val GetFullUrlByHash: Endpoint[UrlHash, Unit, FullUrl, Any] =
     endpoint.get
-      .in("/")
       .in(path[UrlHash]("urlHash").description("Url hash"))
-      .out(plainBody[FullUrl] and statusCode(StatusCode.PermanentRedirect).description("Redirect ro full url"))
-      .errorOut(statusCode(StatusCode.NotFound).description("Doesn't have full URL for this hash yet"))
+      .out(plainBody[FullUrl] and statusCode(StatusCode.PermanentRedirect).description("Redirects to full url"))
+      .errorOut(statusCode(StatusCode.NotFound).description("Doesn't have a linked URL for this hash"))
       .description("Get a redirect by short URL")
 
   val PostFullUrl: Endpoint[FullUrl, Unit, UrlHash, Any] =
     endpoint.post
-      .in("/")
       .in(plainBody[FullUrl])
       .out(plainBody[UrlHash] and statusCode(StatusCode.Ok).description("Short URL was created"))
       .description("Shorten an arbitrary URL")
