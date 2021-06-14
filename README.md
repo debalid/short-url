@@ -76,6 +76,11 @@ To redirect to full url:
 https://github.com
 ```
 
+To explore OpenAPI doc (yaml):
+```bash
+> curl -v localhost:8080/docs/openapi
+````
+
 ## Tests
 
 To run Unit Tests:
@@ -104,8 +109,10 @@ To build image use:
 sbt docker:publishLocal
 ```
 
-To run application using Docker image with composed Redis:
+To run application using Docker image with composed Redis and Swagger-UI:
 
 ```
 docker-compose up
 ```
+
+Then navigate to `http://localhost:80` in your favorite browser to play with API.

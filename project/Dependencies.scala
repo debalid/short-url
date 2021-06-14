@@ -14,6 +14,8 @@ object Dependencies {
     val newtype = "0.4.4"
     val refined = "0.9.26"
 
+    val tapir = "0.18.0-M15"
+
     val logback         = "1.2.3"
     val organizeImports = "0.5.0"
     val semanticDB      = "4.4.20"
@@ -51,6 +53,15 @@ object Dependencies {
     val refinedCore                         = refined("refined")
     val refinedCats                         = refined("refined-cats")
     val refinedScalacheck                   = refined("refined-scalacheck")
+
+    def tapir(artifact: String): ModuleID = "com.softwaremill.sttp.tapir" %% s"tapir-$artifact" % Versions.tapir
+    val tapirCore                         = tapir("core")
+//    val tapirHttp4s                       = tapir("http4s-server") // CE3 problems
+//    val tapirCats                         = tapir("cats") // CE3 problems
+    val tapirNewtype                      = tapir("newtype")
+    val tapirRefiend                      = tapir("refined")
+    val tapirOpenApi                      = tapir("openapi-docs")
+    val tapirOpenApiYaml                  = tapir("openapi-circe-yaml")
 
     val log4cats     = "org.typelevel"  %% "log4cats-slf4j" % Versions.log4cats
     val log4catsNoOp = "org.typelevel"  %% "log4cats-noop"  % Versions.log4cats

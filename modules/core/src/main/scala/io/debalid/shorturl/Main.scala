@@ -7,6 +7,7 @@ import io.debalid.shorturl.modules.{ AppResources, Programs, Services }
 import cats.effect.{ IO, IOApp }
 import dev.profunktor.redis4cats.effect.Log.Stdout._
 import org.http4s.ember.server.EmberServerBuilder
+import org.http4s.server.middleware._
 import org.typelevel.log4cats.Logger
 import org.typelevel.log4cats.slf4j.Slf4jLogger
 
@@ -32,7 +33,7 @@ object Main extends IOApp.Simple {
                 .default[IO]
                 .withHost(cfg.host)
                 .withPort(cfg.port)
-                .withHttpApp(httpApi.routes.orNotFound)
+                .withHttpApp(CORS(httpApi.routes).orNotFound)
                 .build
           }
           .evalTap { server =>

@@ -1,6 +1,6 @@
 import Dependencies._
 
-ThisBuild / version := "1.0"
+ThisBuild / version := "1.1"
 ThisBuild / scalaVersion := "2.13.6"
 ThisBuild / organization := "io.debalid"
 
@@ -46,6 +46,11 @@ lazy val core = (project in file("modules/core"))
       Libraries.cirisRefined,
       Libraries.http4sDsl,
       Libraries.http4sServer,
+      Libraries.tapirCore,
+      Libraries.tapirNewtype,
+      Libraries.tapirRefiend,
+      Libraries.tapirOpenApi,
+      Libraries.tapirOpenApiYaml,
       Libraries.log4cats,
       Libraries.logback % Runtime,
       Libraries.redis4catsEffects,
