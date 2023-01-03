@@ -3,28 +3,28 @@ import sbt._
 object Dependencies {
 
   object Versions {
-    val cats       = "2.6.1"
-    val catsEffect = "3.1.1"
-    val derevo     = "0.12.5"
-    val http4s     = "1.0.0-M23"
-    val ciris      = "2.0.1"
-    val log4cats   = "2.1.1"
-    val redis4cats = "1.0.0-RC3"
+    val cats       = "2.9.0"
+    val catsEffect = "3.4.3"
+    val derevo     = "0.13.0"
+    val http4s     = "0.23.16"
+    val ciris      = "3.0.0"
+    val log4cats   = "2.5.0"
+    val redis4cats = "1.3.0"
 
     val newtype = "0.4.4"
-    val refined = "0.9.26"
+    val refined = "0.10.1"
 
-    val tapir = "0.18.0-M15"
+    val tapir = "1.2.4"
 
-    val logback         = "1.2.3"
-    val organizeImports = "0.5.0"
-    val semanticDB      = "4.4.20"
+    val logback         = "1.4.5"
+    val organizeImports = "0.6.0"
+    val semanticDB      = "4.7.0"
 
-    val weaver              = "0.7.3"
-    val munit               = "0.7.26"
-    val munitScalaCheckCats = "1.0.2"
-    val munitCats           = "1.0.0"
-    val testContainers      = "0.39.5"
+    val weaver              = "0.8.1"
+    val munit               = "1.0.0-M7"
+    val munitScalaCheckCats = "2.0.0-M2"
+    val munitCatsEffect     = "1.0.7"
+    val testContainers      = "0.40.12"
 
   }
 
@@ -56,12 +56,10 @@ object Dependencies {
 
     def tapir(artifact: String): ModuleID = "com.softwaremill.sttp.tapir" %% s"tapir-$artifact" % Versions.tapir
     val tapirCore                         = tapir("core")
-//    val tapirHttp4s                       = tapir("http4s-server") // CE3 problems
-//    val tapirCats                         = tapir("cats") // CE3 problems
+    val tapirHttp4s                       = tapir("http4s-server")
     val tapirNewtype                      = tapir("newtype")
     val tapirRefiend                      = tapir("refined")
-    val tapirOpenApi                      = tapir("openapi-docs")
-    val tapirOpenApiYaml                  = tapir("openapi-circe-yaml")
+    val tapirSwaggerUiBundle              = tapir("swagger-ui-bundle")
 
     val log4cats     = "org.typelevel"  %% "log4cats-slf4j" % Versions.log4cats
     val log4catsNoOp = "org.typelevel"  %% "log4cats-noop"  % Versions.log4cats
@@ -78,7 +76,7 @@ object Dependencies {
     // For Integration tests (unfortunately, weaver does not support TestContainer yet, and I have an idea for a pet project)
     val munit               = "org.scalameta" %% "munit"                      % Versions.munit
     val munitScalaCheck     = "org.scalameta" %% "munit-scalacheck"           % Versions.munit
-    val munitCats           = "org.typelevel" %% "munit-cats-effect-3"        % Versions.munitCats
+    val munitCatsEffect     = "org.typelevel" %% "munit-cats-effect-3"        % Versions.munitCatsEffect
     val munitScalaCheckCats = "org.typelevel" %% "scalacheck-effect-munit"    % Versions.munitScalaCheckCats
     val testContainers      = "com.dimafeng"  %% "testcontainers-scala-munit" % Versions.testContainers
 

@@ -21,3 +21,5 @@ project/metals.sbt
 .metals/
 project/.bloop/
 redis-data/
+metals.sbt
+.vscode

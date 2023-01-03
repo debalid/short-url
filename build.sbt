@@ -49,8 +49,8 @@ lazy val core = (project in file("modules/core"))
       Libraries.tapirCore,
       Libraries.tapirNewtype,
       Libraries.tapirRefiend,
-      Libraries.tapirOpenApi,
-      Libraries.tapirOpenApiYaml,
+      Libraries.tapirHttp4s,
+      Libraries.tapirSwaggerUiBundle,
       Libraries.log4cats,
       Libraries.logback % Runtime,
       Libraries.redis4catsEffects,
@@ -76,7 +76,7 @@ lazy val tests = (project in file("modules/tests"))
       Libraries.weaverScalaCheck,
       Libraries.munit,
       Libraries.munitScalaCheck,
-      Libraries.munitCats,
+      Libraries.munitCatsEffect,
       Libraries.munitScalaCheckCats,
       Libraries.testContainers
     )

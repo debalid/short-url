@@ -6,7 +6,7 @@ import org.scalacheck.Gen
 import org.typelevel.log4cats.Logger
 import org.typelevel.log4cats.noop.NoOpLogger
 import weaver.SimpleIOSuite
-import weaver.scalacheck.{CheckConfig, Checkers}
+import weaver.scalacheck.{ CheckConfig, Checkers }
 
 object HashesSuite extends SimpleIOSuite with Checkers {
 
@@ -17,9 +17,11 @@ object HashesSuite extends SimpleIOSuite with Checkers {
   val longGen: Gen[Long] = Gen.choose(1L, Base63Max)
 
   test("should create valid hashes for all possible longs") {
-    forall.withConfig(CheckConfig.default.copy(
-      minimumSuccessful = 10000,
-    ))(longGen) { longValue =>
+    forall.withConfig(
+      CheckConfig.default.copy(
+        minimumSuccessful = 10000
+      )
+    )(longGen) { longValue =>
       val hashes = Hashes.make[IO]
       for {
         hash <- hashes.create(longValue)
@@ -28,10 +30,10 @@ object HashesSuite extends SimpleIOSuite with Checkers {
   }
 
   test("should create a valid hash for 0") {
-      val hashes = Hashes.make[IO]
-      for {
-        hash <- hashes.create(0)
-      } yield expect.same(hash.show, "AAAAAAAAAA")
+    val hashes = Hashes.make[IO]
+    for {
+      hash <- hashes.create(0)
+    } yield expect.same(hash.show, "AAAAAAAAAA")
   }
 
   test("should create a valid hash for 1") {

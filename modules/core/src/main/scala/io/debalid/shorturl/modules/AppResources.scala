@@ -10,7 +10,6 @@ import dev.profunktor.redis4cats.data.RedisCodec
 import dev.profunktor.redis4cats.effect.MkRedis
 import dev.profunktor.redis4cats.{ Redis, RedisCommands }
 import eu.timepit.refined.auto._
-import org.typelevel.log4cats.Logger
 
 trait AppResources[F[_]] {
   def redisCache: RedisCommands[F, String, String]
@@ -20,7 +19,7 @@ trait AppResources[F[_]] {
 
 object AppResources {
 
-  def make[F[_]: Concurrent: MkRedis: Logger](cfg: AppConfig): Resource[F, AppResources[F]] =
+  def make[F[_]: Concurrent: MkRedis](cfg: AppConfig): Resource[F, AppResources[F]] =
     (
       Redis[F].utf8(cfg.redis.uri.value),
       Redis[F].simple(cfg.redis.uri.value, Codecs.derive(RedisCodec.Utf8, stringLongEpi))

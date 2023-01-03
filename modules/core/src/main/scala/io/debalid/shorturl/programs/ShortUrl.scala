@@ -21,10 +21,10 @@ final case class ShortUrl[F[_]: Monad: Logger](urls: Urls[F], counter: Counter[F
           currentNum <- counter.incr
           _          <- Logger[F].info(s"Creating a new hash for $currentNum")
           newHash    <- hashes.create(currentNum)
-          -          <- Logger[F].info(s"Attempt to link $fullUrl with $newHash")
+          _          <- Logger[F].info(s"Attempt to link $fullUrl with $newHash")
           _          <- urls.link(newHash, fullUrl)
           res        <- urls.getShortUrl(fullUrl)
-          -          <- Logger[F].info(s"Linked $fullUrl with $res")
+          _          <- Logger[F].info(s"Linked $fullUrl with $res")
         } yield res.getOrElse(newHash)
     }
 

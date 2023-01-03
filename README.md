@@ -47,7 +47,7 @@ To create a short link:
 > Content-Type: application/x-www-form-urlencoded
 >
 * upload completely sent off: 18 out of 18 bytes
-< HTTP/1.1 200 OK
+< HTTP/1.1 201 Created
 < Date: Tue, 08 Jun 2021 19:15:49 GMT
 < Connection: keep-alive
 < Content-Type: text/plain; charset=UTF-8
@@ -112,7 +112,7 @@ sbt docker:publishLocal
 To run application using Docker image with composed Redis and Swagger-UI:
 
 ```
-docker-compose up
+docker compose up
 ```
 
-Then navigate to `http://localhost:80` in your favorite browser to play with API.
+Then navigate to `http://localhost:8080/docs` in your favorite browser to play with API.

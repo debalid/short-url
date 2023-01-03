@@ -14,8 +14,8 @@ object RefinedSuite extends SimpleIOSuite with Checkers {
   test("Google url string should be unapplied") {
     IO {
       UrlString.unapply("http://google.com/somepath") match {
-        case Some(value) => success
-        case None        => failure("Correct URL was nt unapplied correctly")
+        case Some(_) => success
+        case None    => failure("Correct URL was nt unapplied correctly")
       }
     }
   }
@@ -33,7 +33,7 @@ object RefinedSuite extends SimpleIOSuite with Checkers {
     IO {
       UrlString.unapply("http//google.com/somepath") match {
         case Some(value) => failure(s"Invalid URL was unapplied! $value")
-        case None    => success
+        case None        => success
       }
     }
   }

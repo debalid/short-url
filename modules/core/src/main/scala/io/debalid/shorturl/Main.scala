@@ -1,15 +1,14 @@
 package io.debalid.shorturl
 
 import io.debalid.shorturl.config.ConfigLoader
-import io.debalid.shorturl.http.UrlsRoute
-import io.debalid.shorturl.modules.{ AppResources, Programs, Services }
+import io.debalid.shorturl.modules._
 
 import cats.effect.{ IO, IOApp }
 import dev.profunktor.redis4cats.effect.Log.Stdout._
 import org.http4s.ember.server.EmberServerBuilder
-import org.http4s.server.middleware._
 import org.typelevel.log4cats.Logger
 import org.typelevel.log4cats.slf4j.Slf4jLogger
+import org.http4s.server.middleware.CORS
 
 object Main extends IOApp.Simple {
 
@@ -21,9 +20,10 @@ object Main extends IOApp.Simple {
         AppResources
           .make[IO](cfg)
           .map { resources =>
-            val services = Services.make[IO](cfg, resources)
-            val programs = Programs.make[IO](services)
-            cfg.http -> UrlsRoute(services.urls, programs.shortUrl)
+            val services = Services.make(cfg, resources)
+            val programs = Programs.make(services)
+            val routes   = Routes.make(services, programs)
+            cfg.http -> routes
           }
           .flatMap {
             case (cfg, httpApi) =>
@@ -33,7 +33,7 @@ object Main extends IOApp.Simple {
                 .default[IO]
                 .withHost(cfg.host)
                 .withPort(cfg.port)
-                .withHttpApp(CORS(httpApi.routes).orNotFound)
+                .withHttpApp(CORS.policy.withAllowOriginAll(httpApi.routes.orNotFound))
                 .build
           }
           .evalTap { server =>
